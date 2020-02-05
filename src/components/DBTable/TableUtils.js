@@ -1,5 +1,5 @@
 import React from 'react';
-import {notification} from 'antd';
+import { notification } from 'antd';
 import globalConfig from '../../config.js';
 import ajax from '../../utils/ajax';
 import Logger from '../../utils/Logger';
@@ -25,7 +25,7 @@ export default {
    * @param tableName
    * @returns {V}
    */
-  getCacheSchema(tableName){
+  getCacheSchema(tableName) {
     return tableMap.get(tableName);
   },
 
@@ -37,7 +37,8 @@ export default {
    */
   getLocalSchema(tableName) {
     const ignoreCache = this.shouldIgnoreSchemaCache(tableName);
-    let querySchema, dataSchema;
+    let querySchema,
+      dataSchema;
 
     try {
       querySchema = require(`../../schema/${tableName}.querySchema.js`);
@@ -59,7 +60,7 @@ export default {
     }
 
     // 注意这里会更新缓存
-    const toCache = {querySchema, dataSchema};
+    const toCache = { querySchema, dataSchema };
     if (!ignoreCache) {
       tableMap.set(tableName, toCache);
     }
@@ -77,7 +78,8 @@ export default {
     const ignoreCache = this.shouldIgnoreSchemaCache(tableName);
     const localSchema = this.getLocalSchema(tableName);
 
-    let querySchema, dataSchema;
+    let querySchema,
+      dataSchema;
     try {
       const res = await ajax.CRUD(tableName).getRemoteSchema();
       logger.debug('get remote schema for table %s, res = %o', tableName, res);
@@ -94,7 +96,7 @@ export default {
     }
 
     // 更新缓存
-    const toCache = {querySchema, dataSchema};
+    const toCache = { querySchema, dataSchema };
     if (!ignoreCache) {
       tableMap.set(tableName, toCache);
     }

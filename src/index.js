@@ -4,8 +4,8 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Provider} from 'react-redux'
-import {Router, Route, IndexRoute, hashHistory} from 'react-router';
+import { Provider } from 'react-redux'
+import { Router, Route, IndexRoute, hashHistory } from 'react-router';
 import './utils/index.js';  // 引入各种prototype辅助方法
 import store from 'redux/store.js';  // redux store
 

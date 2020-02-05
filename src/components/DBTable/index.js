@@ -1,5 +1,5 @@
 import React from 'react';
-import {message, notification, Spin} from 'antd';
+import { message, notification, Spin } from 'antd';
 import Error from '../Error';
 import InnerForm from './InnerForm.js';
 import InnerTable from './InnerTable.js';
@@ -81,7 +81,7 @@ class DBTable extends React.PureComponent {
       this.updateTableState(res);
       // 这个参数用于判断获取schema是同步还是异步
       if (this.state.loadingSchema) {
-        this.setState({loadingSchema: false}, this.refresh);
+        this.setState({ loadingSchema: false }, this.refresh);
       }
     });
   }
@@ -180,7 +180,7 @@ class DBTable extends React.PureComponent {
       }
     }
 
-    const res = {...tmp, tableName, tableConfig};
+    const res = { ...tmp, tableName, tableConfig };
     callback(res);
   }
 
@@ -233,7 +233,7 @@ class DBTable extends React.PureComponent {
   /**
    * 按当前的查询条件重新查询一次
    */
-  refresh = async() => {
+  refresh = async () => {
     // 如果加载schema失败, 就不要查询了
     if (!this.inited) {
       return;
@@ -264,7 +264,7 @@ class DBTable extends React.PureComponent {
       description: `请联系管理员, 错误信息: ${errorMsg}`,
       duration: 0,
     });
-    this.setState({tableLoading: false});
+    this.setState({ tableLoading: false });
   };
 
   /**
@@ -286,7 +286,7 @@ class DBTable extends React.PureComponent {
     const hide = message.loading('正在查询...', 0);
     try {
       const CRUD = ajax.CRUD(this.tableName);
-      this.setState({tableLoading: true});
+      this.setState({ tableLoading: true });
       const res = await CRUD.select(tmpObj);
       // 请求结束后, 提示消失, 但不要急着还原tableLoading的状态, 让上层调用的方法去还原
       hide();
@@ -306,7 +306,7 @@ class DBTable extends React.PureComponent {
    *
    * @param page
    */
-  handlePageChange = async(page) => {
+  handlePageChange = async (page) => {
     logger.debug('handlePageChange, page = %d', page);
     const res = await this.select(this.state.queryObj, page, this.state.pageSize);
     if (res.success) {
@@ -326,7 +326,7 @@ class DBTable extends React.PureComponent {
    *
    * @param page
    */
-  handleShowPageChange = async(page, pageSize) => {
+  handleShowPageChange = async (page, pageSize) => {
     logger.debug('handleShowPageSizeChange, page = %d', page);
     const res = await this.select(this.state.queryObj, page, pageSize);
     if (res.success) {
@@ -347,7 +347,7 @@ class DBTable extends React.PureComponent {
    *
    * @param queryObj
    */
-  handleFormSubmit = async(queryObj) => {
+  handleFormSubmit = async (queryObj) => {
     logger.debug('handleFormSubmit, queryObj = %o', queryObj);
     // 这时查询条件已经变了, 要从第一页开始查
     const res = await this.select(queryObj, 1, this.state.pageSize);
@@ -397,14 +397,18 @@ class DBTable extends React.PureComponent {
 
     return (
       <Spin spinning={this.state.loadingSchema} delay={500}>
-        <InnerForm parentHandleSubmit={this.handleFormSubmit} schema={this.querySchema} tableConfig={this.tableConfig}
+        <InnerForm parentHandleSubmit={this.handleFormSubmit} schema={this.querySchema}
+                   tableConfig={this.tableConfig}
                    tableName={this.tableName}/>
         <InnerTable data={this.state.data} tableLoading={this.state.tableLoading}
                     schema={this.dataSchema} refresh={this.refresh}
                     tableConfig={this.tableConfig} tableName={this.tableName}/>
-        <InnerPagination currentPage={this.state.currentPage} total={this.state.total} pageSize={this.state.pageSize}
-                         parentHandlePageChange={this.handlePageChange} tableConfig={this.tableConfig}
-                         showSizeChanger={this.state.showSizeChanger} pageSizeOptions={this.state.pageSizeOptions}
+        <InnerPagination currentPage={this.state.currentPage} total={this.state.total}
+                         pageSize={this.state.pageSize}
+                         parentHandlePageChange={this.handlePageChange}
+                         tableConfig={this.tableConfig}
+                         showSizeChanger={this.state.showSizeChanger}
+                         pageSizeOptions={this.state.pageSizeOptions}
                          parentHandleShowPageChange={this.handleShowPageChange}
                          tableName={this.tableName}/>
       </Spin>

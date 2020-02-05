@@ -2,13 +2,13 @@ const webpack = require('webpack');
 const path = require('path');
 const globalConfig = require('./src/config.js');
 
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
-const CompressionPlugin = require("compression-webpack-plugin");
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const CompressionPlugin = require('compression-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const babelLoaderConfig = {
   presets: ['latest', 'stage-0', 'react'],
-  plugins: [['import', {libraryName: 'antd', style: true}]],
+  plugins: [['import', { libraryName: 'antd', style: true }]],
   cacheDirectory: true,
 };
 
@@ -76,8 +76,8 @@ module.exports = {
     new webpack.optimize.UglifyJsPlugin({
       sourceMap: true,
       minimize: true,
-      compress: {warnings: false},
-      output: {comments: false},
+      compress: { warnings: false },
+      output: { comments: false },
     }),
 
     new HtmlWebpackPlugin({
@@ -85,7 +85,7 @@ module.exports = {
       title: globalConfig.name,
       favIcon: globalConfig.favicon,
       hash: true,  // 引入js/css的时候加个hash, 防止cdn的缓存问题
-      minify: {removeComments: true, collapseWhitespace: true},
+      minify: { removeComments: true, collapseWhitespace: true },
     }),
 
     // 抽离公共部分, 要了解CommonsChunkPlugin的原理, 首先要搞清楚chunk的概念
@@ -98,12 +98,14 @@ module.exports = {
       minChunks: (module) => {
         // 得到资源路径
         var resource = module.resource;
-        if (!resource)
+        if (!resource) {
           return false;
+        }
         // 坑爹的webpack, for-of里不用能const, 会有bug
         for (var libName of vendorLibs) {
-          if (resource.indexOf(path.resolve(__dirname, 'node_modules', libName)) >= 0)
+          if (resource.indexOf(path.resolve(__dirname, 'node_modules', libName)) >= 0) {
             return true;
+          }
         }
         return false;
       },
@@ -117,11 +119,11 @@ module.exports = {
     new webpack.NoErrorsPlugin(),
 
     // css单独抽出来
-    new ExtractTextPlugin('bundle.min.css', {allChunks: false}),
+    new ExtractTextPlugin('bundle.min.css', { allChunks: false }),
     // 压缩成gzip格式
     new CompressionPlugin({
-      asset: "[path].gz[query]",
-      algorithm: "gzip",
+      asset: '[path].gz[query]',
+      algorithm: 'gzip',
       test: /\.js$|\.css$|\.html$/,
       threshold: 10240,
       minRatio: 0,

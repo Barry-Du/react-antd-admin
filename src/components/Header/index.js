@@ -1,10 +1,10 @@
 import React from 'react';
-import {Link} from 'react-router';
-import {Icon, Menu} from 'antd';
+import { Link } from 'react-router';
+import { Icon, Menu } from 'antd';
 import Logger from '../../utils/Logger';
 import globalConfig from 'config';
 import './index.less';
-import {headerMenu} from 'menu';
+import { headerMenu } from 'menu';
 
 const SubMenu = Menu.SubMenu;  // 为了使用方便
 const MenuItem = Menu.Item;
@@ -26,7 +26,8 @@ class Header extends React.PureComponent {
     return (
       <MenuItem key={obj.key}>
         {obj.icon && <Icon type={obj.icon}/>}
-        {obj.url ? <a target="_blank" href={obj.url}>{obj.name}</a> : <Link to={`/${parentPath}`}>{obj.name}</Link>}
+        {obj.url ? <a target="_blank" href={obj.url}>{obj.name}</a> :
+          <Link to={`/${parentPath}`}>{obj.name}</Link>}
       </MenuItem>
     );
   }
@@ -64,8 +65,10 @@ class Header extends React.PureComponent {
             // 与sidebarMenu不同的是这里返回MenuItemGroup
             return (
               <MenuItemGroup key={level2.key}
-                             title={level2.icon ? <span><Icon type={level2.icon} />{` ${level2.name}`}</span> : <span>{level2.name}</span>}>
-                <Menu.Divider />
+                             title={level2.icon ?
+                               <span><Icon type={level2.icon}/>{` ${level2.name}`}</span> :
+                               <span>{level2.name}</span>}>
+                <Menu.Divider/>
                 {level3menu}
               </MenuItemGroup>
             );
@@ -80,7 +83,8 @@ class Header extends React.PureComponent {
 
         transformedLevel1Menu = (
           <SubMenu key={level1.key}
-                   title={level1.icon ? <span><Icon type={level1.icon} />{level1.name}</span> : level1.name}>
+                   title={level1.icon ?
+                     <span><Icon type={level1.icon}/>{level1.name}</span> : level1.name}>
             {level2menu}
           </SubMenu>
         );
@@ -102,9 +106,9 @@ class Header extends React.PureComponent {
 
     // 注意用户菜单的最后一项必定是注销
     const userMenu = (
-      <SubMenu title={<span><Icon type="user" />{this.props.userName}</span>}>
+      <SubMenu title={<span><Icon type="user"/>{this.props.userName}</span>}>
         {userMenuItems && userMenuItems[0] ? userMenuItems : null}
-        <Menu.Divider />
+        <Menu.Divider/>
         {logoutMenuItem}
       </SubMenu>
     );

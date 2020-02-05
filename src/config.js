@@ -129,10 +129,11 @@ module.exports = {
       while (tmp.charAt(index) === '/') {
         index--;
       }
-      if (index < 0)
+      if (index < 0) {
         paths.push('');
-      else
+      } else {
         paths.push(tmp.substring(0, index + 1));
+      }
     } else {
       paths.push('');
     }
@@ -148,10 +149,11 @@ module.exports = {
       while (tmp.charAt(end) === '/') {
         end--;
       }
-      if (begin > end)
+      if (begin > end) {
         paths.push('');
-      else
+      } else {
         paths.push(tmp.substring(begin, end + 1));
+      }
     } else {
       paths.push('');
     }

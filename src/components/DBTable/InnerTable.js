@@ -6,7 +6,7 @@ import {
   Modal,
   message,
   notification,
-  Affix
+  Affix,
 } from 'antd';
 import Logger from '../../utils/Logger';
 import Utils from '../../utils';
@@ -14,7 +14,7 @@ import ajax from '../../utils/ajax';
 import moment from 'moment';
 import ImageSlider from '../ImageSlider';
 import InnerTableSchemaUtils from './InnerTableSchemaUtils';
-import InnerTableRenderUtils, {ACTION_KEY} from './InnerTableRenderUtils';
+import InnerTableRenderUtils, { ACTION_KEY } from './InnerTableRenderUtils';
 
 const logger = Logger.getLogger('InnerTable');
 
@@ -104,7 +104,7 @@ class InnerTable extends React.PureComponent {
    * 解析表格的schema
    */
   parseTableSchema(props) {
-    const {tableName, schema} = props;
+    const { tableName, schema } = props;
     const parseResult = InnerTableSchemaUtils.getTableSchema(tableName, schema);
 
     this.primaryKey = parseResult.primaryKey;
@@ -180,8 +180,9 @@ class InnerTable extends React.PureComponent {
 
     for (const key in obj) {
       // rawData中可能有些undefined或null的字段, 过滤掉
-      if (!obj[key])
+      if (!obj[key]) {
         continue;
+      }
 
       if (this.fieldMap.get(key).dataType === 'datetime') {  // 判断是否是日期类型的字段
         newObj[key] = moment(obj[key]);
@@ -273,9 +274,17 @@ class InnerTable extends React.PureComponent {
     // 跟组件的实现方式有关, 可能是css动画的问题, 也可能是setState异步的问题, 似乎暂时无解...
 
     if (multiSelected) {
-      this.setState({modalVisible: true, modalTitle: '批量更新', modalInsert: false}, () => this.setFormData(newData));
+      this.setState({
+        modalVisible: true,
+        modalTitle: '批量更新',
+        modalInsert: false,
+      }, () => this.setFormData(newData));
     } else {
-      this.setState({modalVisible: true, modalTitle: '更新', modalInsert: false}, () => this.setFormData(newData));
+      this.setState({
+        modalVisible: true,
+        modalTitle: '更新',
+        modalInsert: false,
+      }, () => this.setFormData(newData));
     }
   };
 
@@ -304,14 +313,14 @@ class InnerTable extends React.PureComponent {
    * @param selectedRowKeys
    */
   onTableSelectChange = (selectedRowKeys) => {
-    this.setState({selectedRowKeys});
+    this.setState({ selectedRowKeys });
   };
 
   /**
    * 隐藏modal
    */
   hideModal = () => {
-    this.setState({modalVisible: false});
+    this.setState({ modalVisible: false });
   };
 
   /**
@@ -396,15 +405,15 @@ class InnerTable extends React.PureComponent {
   onClickImage = (text) => {
     const newImageArray = [];
     if (Utils.isString(text) && text.length > 0) {
-      newImageArray.push({url: text, alt: '图片加载失败'});
+      newImageArray.push({ url: text, alt: '图片加载失败' });
     } else if (text instanceof Array) {
       for (const tmp of text) {
-        newImageArray.push({url: tmp, alt: '图片加载失败'});
+        newImageArray.push({ url: tmp, alt: '图片加载失败' });
       }
     }
     // 如果没有图片, 点击就不要显示modal
     if (newImageArray.length > 0) {
-      this.setState({previewVisible: true, previewImages: newImageArray});
+      this.setState({ previewVisible: true, previewImages: newImageArray });
     }
   };
 
@@ -412,7 +421,7 @@ class InnerTable extends React.PureComponent {
    * 隐藏图片预览
    */
   cancelPreview = () => {
-    this.setState({previewVisible: false});
+    this.setState({ previewVisible: false });
   };
 
   /**
@@ -485,14 +494,14 @@ class InnerTable extends React.PureComponent {
     this.updateComponent = component;  // react组件对应的class, 其实就是个函数
     this.updateComponentRecord = record;
     this.updateComponentModalTitle = name;
-    this.setState({componentModalVisible: true});
+    this.setState({ componentModalVisible: true });
   };
 
   /**
    * 隐藏自定义组件modal
    */
   handleComponentModalCancel = () => {
-    this.setState({componentModalVisible: false});
+    this.setState({ componentModalVisible: false });
   };
 
   /**
@@ -500,7 +509,7 @@ class InnerTable extends React.PureComponent {
    */
   handleComponentModalOk = () => {
     // 首先关闭modal
-    this.setState({componentModalVisible: false});
+    this.setState({ componentModalVisible: false });
     // 自定义的组件正常挂载后, 会以ref的形式暂存
     if (!this.updateComponentMounted) {  // 正常情况下不会出现这种情况
       logger.error('user-defined component does not mount');
@@ -573,7 +582,7 @@ class InnerTable extends React.PureComponent {
           newData.push(record);
         }
 
-        this.setState({selectedRowKeys: [], data: newData});
+        this.setState({ selectedRowKeys: [], data: newData });
       } else {
         this.error(res.message);
       }
@@ -614,7 +623,7 @@ class InnerTable extends React.PureComponent {
             newData.push(record);
           }
         }
-        this.setState({selectedRowKeys: [], data: newData});
+        this.setState({ selectedRowKeys: [], data: newData });
       } else {
         this.error(res.message);
       }
@@ -649,7 +658,7 @@ class InnerTable extends React.PureComponent {
             newData.push(record);
           }
         }
-        this.setState({selectedRowKeys: [], data: newData});
+        this.setState({ selectedRowKeys: [], data: newData });
       } else {
         this.error(res.message);
       }
@@ -662,7 +671,7 @@ class InnerTable extends React.PureComponent {
 
 
   render() {
-    const {tableName, schema, tableLoading, tableConfig} = this.props;
+    const { tableName, schema, tableLoading, tableConfig } = this.props;
 
     // 根据当前的tableName, 获取对应的表单组件
     const FormComponent = InnerTableSchemaUtils.getForm(tableName, schema);
@@ -688,19 +697,24 @@ class InnerTable extends React.PureComponent {
               </Button>}
               {/* 注意这里, 如果schema中没有定义主键, 不允许update或delete */}
               {tableConfig.showUpdate &&
-              <Button type="primary" disabled={!hasSelected || !this.primaryKey} onClick={this.onClickUpdate}>
+              <Button type="primary" disabled={!hasSelected || !this.primaryKey}
+                      onClick={this.onClickUpdate}>
                 <Icon type="edit"/> {multiSelected ? '批量修改' : '修改'}
               </Button>}
               {tableConfig.showDelete &&
-              <Button type="primary" disabled={!hasSelected || !this.primaryKey} onClick={this.onClickDelete}>
+              <Button type="primary" disabled={!hasSelected || !this.primaryKey}
+                      onClick={this.onClickDelete}>
                 <Icon type="delete"/> {multiSelected ? '批量删除' : '删除'}
               </Button>}
             </Button.Group>
           </Affix>
           {/*antd的modal实现中, 如果modal不显示, 那内部的组件是不会mount的, 导致第一次访问this.formComponent会undefined, 而我又需要设置表单的值, 所以新增一个initData属性*/}
-          <Modal title={this.state.modalTitle} visible={this.state.modalVisible} onOk={this.handleModalOk}
+          <Modal title={this.state.modalTitle} visible={this.state.modalVisible}
+                 onOk={this.handleModalOk}
                  onCancel={this.hideModal} maskClosable={false} width={550}>
-            <FormComponent ref={(input) => { this.formComponent = input; }} initData={this.formInitData}
+            <FormComponent ref={(input) => {
+              this.formComponent = input;
+            }} initData={this.formInitData}
                            forUpdate={!this.state.modalInsert} keysToUpdate={this.keysToUpdate}/>
           </Modal>
         </div>
@@ -716,11 +730,14 @@ class InnerTable extends React.PureComponent {
                onOk={this.handleComponentModalOk} maskClosable={false}>
           {/*render方法首次调用时, this.updateComponent必定是undefined*/}
           {this.updateComponent &&
-          <UpdateComponent ref={(input) => { this.updateComponentMounted = input; }}
+          <UpdateComponent ref={(input) => {
+            this.updateComponentMounted = input;
+          }}
                            record={this.updateComponentRecord}/>}
         </Modal>
 
-        <Table rowSelection={rowSelection} columns={this.tableSchema} dataSource={this.state.data} pagination={false}
+        <Table rowSelection={rowSelection} columns={this.tableSchema} dataSource={this.state.data}
+               pagination={false}
                loading={tableLoading}/>
       </div>
     );

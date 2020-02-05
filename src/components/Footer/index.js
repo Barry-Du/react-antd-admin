@@ -1,5 +1,5 @@
 import React from 'react';
-import {BackTop} from 'antd';
+import { BackTop } from 'antd';
 import globalConfig from 'config.js';
 import './index.less';
 

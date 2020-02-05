@@ -1,8 +1,8 @@
 import React from 'react';
-import {connect} from 'react-redux'
-import {Link} from 'react-router';
-import {bindActionCreators} from 'redux'
-import {Spin, message, Tabs, Icon} from 'antd';
+import { connect } from 'react-redux'
+import { Link } from 'react-router';
+import { bindActionCreators } from 'redux'
+import { Spin, message, Tabs, Icon } from 'antd';
 import Header from '../Header';
 import Footer from '../Footer';
 import Sidebar from '../Sidebar';
@@ -13,8 +13,8 @@ import './index.less';
 import globalConfig from 'config.js';
 import ajax from '../../utils/ajax';
 import Logger from '../../utils/Logger';
-import sidebarMenu, {headerMenu} from '../../menu.js';
-import {loginSuccessCreator} from '../../redux/Login.js';
+import sidebarMenu, { headerMenu } from '../../menu.js';
+import { loginSuccessCreator } from '../../redux/Login.js';
 
 const TabPane = Tabs.TabPane;
 const logger = Logger.getLogger('App');
@@ -115,7 +115,7 @@ class App extends React.Component {
     } else {
       message.error(errorMsg);
       logger.debug('not login, redirect to Login component');
-      this.setState({tryingLogin: false});
+      this.setState({ tryingLogin: false });
     }
   }
 
@@ -136,7 +136,8 @@ class App extends React.Component {
         return;
       }
       if (item.icon) {
-        tabTitleMap.set(item.key, <span className="ant-layout-tab-text"><Icon type={item.icon}/>{item.name}</span>);
+        tabTitleMap.set(item.key, <span className="ant-layout-tab-text"><Icon
+          type={item.icon}/>{item.name}</span>);
       } else {
         tabTitleMap.set(item.key, <span className="ant-layout-tab-text">{item.name}</span>);
       }
@@ -212,7 +213,7 @@ class App extends React.Component {
    * 改变tab时的回调
    */
   onTabChange = (activeKey) => {
-    this.setState({currentTabKey: activeKey});
+    this.setState({ currentTabKey: activeKey });
   };
 
   /**
@@ -244,7 +245,7 @@ class App extends React.Component {
 
     // 过滤panes
     const newTabPanes = this.state.tabPanes.filter(pane => pane.key !== targetKey);
-    this.setState({tabPanes: newTabPanes, currentTabKey: nextTabKey});
+    this.setState({ tabPanes: newTabPanes, currentTabKey: nextTabKey });
   };
 
   /**
@@ -260,7 +261,7 @@ class App extends React.Component {
     if (globalConfig.tabMode.enable === true) {
       // 如果没有tab可以显示, 就显示欢迎界面
       if (this.state.tabPanes.length === 0) {
-        return <div className="ant-layout-container"><Welcome /></div>;
+        return <div className="ant-layout-container"><Welcome/></div>;
       } else {
         return <Tabs activeKey={this.state.currentTabKey} type="editable-card"
                      onEdit={this.onTabRemove} onChange={this.onTabChange}
@@ -290,19 +291,20 @@ class App extends React.Component {
 
     // 跳转到登录界面
     if (!this.props.login) {
-      return <Login />;
+      return <Login/>;
     }
 
     // 正常显示
     return (
       <div className="ant-layout-base">
         {/*整个页面被一个ant-layout-base的div包围, 分为sidebar/header/footer/content等几部分*/}
-        <Sidebar />
+        <Sidebar/>
 
-        <div id="main-content-div" className={this.props.collapse ? 'ant-layout-main-collapse' : 'ant-layout-main'}>
+        <div id="main-content-div"
+             className={this.props.collapse ? 'ant-layout-main-collapse' : 'ant-layout-main'}>
           <Header userName={this.props.userName}/>
           {this.renderBody()}
-          <Footer />
+          <Footer/>
         </div>
       </div>
     );
