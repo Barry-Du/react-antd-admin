@@ -26,7 +26,7 @@ module.exports = [
     // 至于后台用这个值做等值/大于/小于/like, 前端不关心
 
     // 对于varchar类型的字段, 可以设置前置标签和后置标签
-    addonBefore: (<Icon type="user"/>),
+    addonBefore: (<Icon type="user" />),
     defaultValue: 'foolbear', // 默认值
   },
   {
@@ -68,6 +68,7 @@ module.exports = [
   {
     key: 'userType',
     title: '用户类型',
+    // eslint-disable-next-line max-len
     dataType: 'varchar',   // 理论上来说, 这里的dataType可以是int/float/varchar甚至datetime, 反正对前端而言都是字符串, 只是后端反序列化时有区别
     showType: 'radio',  // 单选框, 和下拉框schema是一样的, 只是显示时有差别
     options: [{ key: 'typeA', value: '类型A' }, { key: 'typeB', value: '类型B' }],
@@ -87,6 +88,7 @@ module.exports = [
     dataType: 'float',
     showType: 'between',  // 小数也可以范围查询, 固定两位小数
     placeholderBegin: '哈哈',  // 对于范围查询, 可以定义placeholderBegin和placeholderBegin, 用于两个框的提示语
+    // eslint-disable-next-line max-len
     placeholderEnd: '切克闹',  // 如果不定义, 对于int/float的范围查询, 提示语是"最小值"/"最大值", 对于日期的范围查询, 提示语是"开始日期"/"结束日期"
     defaultValueEnd: 99.9,
   },
